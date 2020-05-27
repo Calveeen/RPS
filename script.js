@@ -12,43 +12,52 @@ function computerPlay(){
 
 let computerScore = 0;
 let playerScore = 0;
+const finalScore = document.createElement("h1");
+const insertionDiv = document.getElementById("RPS");
+const insertBeforeElement = document.getElementById("cpu-selection");
+
+const btn = document.querySelectorAll("#player-selection button");
+const playerChoice = btn.forEach(button =>{
+        button.addEventListener("click", () =>{
+            if(playerScore >= 5 || computerScore >= 5){
+                alert("End of game.");
+            } else{
+                game(button.textContent);
+            } 
+        });
+});
 
 function playRound(playerSelection, computerSelection){
     const player = playerSelection.toLowerCase();
-
+    let displayCPUScore = document.getElementById("cpu-score");
+    let displayPlayerScore = document.getElementById("player-score");
     if (player == computerSelection){
         console.log("Tie! Both players played " + player + "."); 
         return 0;
     }
-
-    if(player == "rock" && computerSelection == "paper" || player == "paper" && computerSelection == "scissors" || player == "scissors" && computerSelection == "rock"){
-        console.log("You Lose, " + computerSelection + " beats " + player + "!");
+    if(player == "rock" && computerSelection == "paper" || player == "paper" && computerSelection == "scissors" 
+    || player == "scissors" && computerSelection == "rock"){
         computerScore++;
+        displayCPUScore.textContent = "CPU: " + computerScore;
         return computerScore;
     } else{
-        console.log("You Win, " + player + " beats " + computerSelection + "!");
         playerScore++;
+        displayPlayerScore.textContent = "Player: " + playerScore;
         return playerScore;
     }
-
 }
 
-function game(){
-    for(let i = 1; i < 6; i++){
-        console.log("Round " + i + ", BEGIN!!");
-
-        let playerChoice = prompt("Enter Rock, Paper, or Scissors: ");
-        let computerChoice = computerPlay();
-
-        console.log(`You have chosen ${playerChoice}, and the computer chose ${computerChoice}`);
-        console.log(playRound(playerChoice, computerChoice));
-    }
-    if(playerScore > computerScore){
-        console.log(`You won! You beat the computer ${playerScore}-${computerScore}`);
-    } else if(playerScore == computerScore){
-        console.log('Both of you tied ${computerScore}-${playerScore}');
-    } else{
-        console.log(`You lost! The computer beat you ${computerScore}-${playerScore}`);
-    }
+function game(playerChoice){
+    let computerChoice = computerPlay();
     
+    console.log(`You have chosen ${playerChoice}, and the computer chose ${computerChoice}`);
+    console.log(playRound(playerChoice, computerChoice));
+    
+    if(playerScore === 5){
+        finalScore.textContent = `You won ${playerScore}-${computerScore}!!`;
+        insertionDiv.insertBefore(finalScore, insertBeforeElement);
+    } else if(computerScore === 5){
+        finalScore.textContent = `You lost ${computerScore}-${playerScore} ):`;
+        insertionDiv.insertBefore(finalScore, insertBeforeElement);
+    }
 }

@@ -1,1 +1,1 @@
-Finished RPS JS Code
+Updated RPS Code to allow interactivity with the user. Mostly complete, but one thing that needs to be done is to determine how to highlight choices made by the CPU and Player.
